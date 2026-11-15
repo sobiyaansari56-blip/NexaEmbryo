@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NexaEmbryo</title>
+<style>
+:root{--navy:#0b2a6b;--navy2:#0f3a8f;--bg:#eef3fb;--card:#fff;--line:#d8e2f2;--ink:#14213d;--mute:#5b6b8a;--blue:#2563eb;--soft:#e4eeff;--ok:#16a34a}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,system-ui,sans-serif;background:var(--bg);color:var(--ink);display:flex;min-height:100vh}
+aside{width:230px;background:linear-gradient(180deg,#0b2a6b,#071a45);color:#dbe7ff;display:flex;flex-direction:column;position:fixed;inset:0 auto 0 0;padding:18px 12px}
+.brand{display:flex;gap:10px;align-items:center;padding:6px 8px 4px}.brand b{font-size:22px;color:#fff}.tag{font-size:10px;opacity:.7;padding:0 8px 18px}
+nav a{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:10px;color:#cfe0ff;text-decoration:none;cursor:pointer;margin-bottom:4px;font-size:14px}
+nav a.on{background:#1d4ed8;color:#fff}nav a:hover:not(.on){background:#ffffff14}
+.foot{margin-top:auto;font-size:12px;text-align:center;opacity:.8;padding:10px}
+main{margin-left:230px;flex:1;min-width:0}
+header{height:68px;background:linear-gradient(90deg,#0b2a6b,#0f3a8f);display:flex;align-items:center;justify-content:flex-end;gap:22px;padding:0 28px;color:#fff}
+.user{display:flex;gap:10px;align-items:center;background:#ffffff1f;padding:6px 14px;border-radius:30px;font-size:14px}.av{width:30px;height:30px;border-radius:50%;background:#93c5fd;color:#0b2a6b;display:grid;place-items:center;font-weight:700}
+.page{padding:22px 28px}h1{margin:0;font-size:24px}.sub{color:var(--mute);margin:4px 0 0;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 2px 8px #0b2a6b0d}
+.row{display:flex;gap:18px;flex-wrap:wrap}.col{flex:1;min-width:300px}
+.chips{display:flex;gap:12px;margin-left:auto}.chip{background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px 16px;font-size:13px}.chip b{display:block;font-size:15px}
+.top{display:flex;align-items:center;gap:16px;margin-bottom:18px;flex-wrap:wrap}
+.viewer{background:#111;border-radius:10px;height:340px;overflow:hidden;position:relative;display:grid;place-items:center}
+.viewer img{max-width:100%;max-height:100%;transition:transform .15s;transform-origin:center}
+.drop{border:2px dashed #9db6e6;border-radius:12px;height:340px;display:grid;place-items:center;text-align:center;color:var(--mute);cursor:pointer;background:#f6f9ff}
+.drop.over{background:#e4eeff;border-color:var(--blue)}
+.tools{display:flex;gap:6px;margin-left:auto}.tools button{width:32px;height:32px;border:1px solid var(--line);background:#fff;border-radius:8px;cursor:pointer;font-size:15px}
+.ch{display:flex;align-items:center;gap:8px;margin-bottom:10px;font-weight:600;font-size:16px}
+table{border-collapse:collapse;width:100%;font-size:14px}td,th{padding:9px 10px;border-bottom:1px solid #e8eef8;text-align:left}th{color:var(--mute);font-weight:600;font-size:12px;text-transform:uppercase}
+tr.click{cursor:pointer}tr.click:hover{background:#f3f7ff}
+.bar{height:6px;border-radius:6px;background:#e3eaf6;width:90px;overflow:hidden}.bar i{display:block;height:100%;background:var(--blue)}
+.pill{display:inline-flex;gap:6px;align-items:center;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600}
+.High{background:#dcfce7;color:#166534}.Medium{background:#fef3c7;color:#92400e}.Low{background:#fee2e2;color:#991b1b}
+.sum{background:var(--soft);border:1px solid #bcd3ff;border-radius:12px;padding:14px;margin-top:14px}.sum b{color:var(--navy)}
+.rep{background:linear-gradient(180deg,#0b2a6b,#123b94);border-radius:14px;color:#fff;padding:16px 18px}
+.rep h3{margin:0;font-size:18px}.rep p{margin:4px 0 0;font-size:13px;opacity:.8}
+label{display:block;font-size:13px;font-weight:600;margin:12px 0 5px}input,textarea,select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:9px;font:inherit;background:#fff}
+textarea{min-height:84px;resize:vertical}
+.btn{background:var(--navy);color:#fff;border:0;border-radius:10px;padding:12px 18px;font:inherit;font-weight:600;cursor:pointer}.btn:hover{background:var(--navy2)}
+.btn.sec{background:#fff;color:var(--navy);border:1px solid var(--line)}.btn.full{width:100%;margin-top:14px}.btn:disabled{opacity:.5;cursor:default}
+.checks div{font-size:14px;margin:6px 0}.checks div:before{content:"\2714";color:var(--ok);margin-right:8px}
+.paper{background:#fff;border:1px solid #cfd9ec;border-radius:6px;padding:14px;font-size:11.5px;box-shadow:0 4px 14px #0b2a6b22}
+.paper .band{background:var(--navy);color:#fff;font-weight:700;padding:3px 8px;margin:10px 0 0;font-size:11px}
+.paper table td{padding:3px 6px;border:1px solid #d6deec;font-size:11px}.paper table td:first-child{font-weight:600;background:#f4f7fb;width:38%}
+.pimg{display:flex;gap:8px}.pimg img{width:110px;height:110px;object-fit:cover;border-radius:4px;background:#222}.pimg div{background:var(--soft);padding:8px;flex:1;font-size:11px}
+.sel{display:inline-flex;align-items:center;gap:8px;background:#dcfce7;color:#166534;padding:5px 12px;border-radius:20px;font-weight:600;font-size:12px;cursor:pointer;border:0}.sel.off{background:#eef1f6;color:var(--mute)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:18px}.stat b{font-size:28px;display:block;color:var(--navy)}.stat span{color:var(--mute);font-size:13px}
+.hb{display:flex;align-items:center;gap:10px;margin:7px 0;font-size:13px}.hb .bar{flex:1;width:auto;height:10px}.hb span:first-child{width:92px;text-transform:capitalize}
+.thumb{width:44px;height:44px;border-radius:8px;object-fit:cover;background:#222}
+.loader{position:fixed;inset:0;background:#0b2a6bcc;color:#fff;display:none;place-items:center;font-size:18px;z-index:9}.loader.on{display:grid}
+.toast{position:fixed;bottom:22px;right:22px;background:#0b2a6b;color:#fff;padding:12px 18px;border-radius:10px;display:none;z-index:10}
+.hidden{display:none!important}details{border-bottom:1px solid var(--line);padding:12px 0}summary{cursor:pointer;font-weight:600}
+@media(max-width:900px){aside{display:none}main{margin:0}}
+</style>
+</head>
+<body>
+<aside>
+  <div class="brand"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9fc2ff" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="#9fc2ff"/></svg><b>NexaEmbryo</b></div>
+  <div class="tag">Smarter Selection. Healthier Tomorrow.</div>
+  <nav id="nav">
+    <a data-v="dashboard">&#9632; Dashboard</a><a data-v="analysis">&#9783; Analysis</a><a data-v="records">&#128193; Patient Records</a>
+    <a data-v="reports">&#128196; Reports</a><a data-v="settings">&#9881; Settings</a><a data-v="help">&#10068; Help &amp; Support</a>
+  </nav>
+  <div class="foot">AI-Powered Insights<br>for Better Decisions</div>
+</aside>
+<main>
+  <header><span title="Notifications">&#128276;</span><div class="user"><div class="av" id="av">D</div><span id="uname">Clinician</span></div></header>
+
+  <section class="page" data-view="dashboard">
+    <div class="top"><div><h1>Dashboard</h1><p class="sub">Overview of embryo analyses in your laboratory</p></div>
+      <button class="btn chips" style="margin-left:auto" onclick="go('analysis',true)">+ New analysis</button></div>
+    <div class="stats" id="stats"></div>
+    <div class="row"><div class="card col"><div class="ch">Stage distribution</div><div id="dist"></div></div>
+      <div class="card col" style="flex:2"><div class="ch">Recent analyses</div><table id="recent"></table></div></div>
+  </section>
+
+  <section class="page hidden" data-view="analysis">
+    <div class="top"><div><h1>Embryo Analysis Results</h1><p class="sub">Review the AI assessment and generate a clinical report</p></div>
+      <div class="chips"><div class="chip">Patient ID<b id="cPid">-</b></div><div class="chip">Analysis Date<b id="cDate">-</b></div></div></div>
+    <div class="row">
+      <div class="col" style="flex:1.2">
+        <div class="card"><div class="ch">Embryo Image Overview
+          <div class="tools"><button onclick="zoom(.2)" title="Zoom in">+</button><button onclick="zoom(-.2)" title="Zoom out">&minus;</button><button onclick="fs()" title="Full screen">&#9974;</button><button onclick="newAnalysis()" title="Upload another">&#8682;</button></div></div>
+          <div class="drop" id="drop"><div><div style="font-size:34px">&#128444;</div><b>Drop an embryo image here</b><br>or click to browse (JPG / PNG)</div></div>
+          <div class="viewer hidden" id="viewer"><img id="img"></div>
+          <input type="file" id="file" accept="image/*" hidden>
+        </div>
+        <div class="card" style="margin-top:16px"><div class="ch">Morphological Assessment <span id="confPill" class="pill" style="margin-left:auto"></span></div>
+          <table id="morph"></table>
+          <div class="sum"><b>AI Analysis Summary</b><div id="summary" style="margin-top:6px;font-size:14px"></div>
+            <div id="similar" style="margin-top:8px;font-size:12px;color:var(--mute)"></div></div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="rep"><h3>Generate Clinical Report</h3><p>Download a detailed analysis report for this patient</p></div>
+        <div class="card" style="margin-top:12px">
+          <div class="row" style="gap:12px"><div class="col" style="min-width:140px"><label>Patient ID</label><input id="fPid"></div><div class="col" style="min-width:140px"><label>Embryo ID</label><input id="fEid"></div></div>
+          <label>Clinician / Reviewer</label><input id="fClin">
+          <label>Comments (Optional)</label><textarea id="fCom" placeholder="e.g. Excellent morphology, recommended for transfer."></textarea>
+          <div class="checks" style="margin-top:12px"><b style="font-size:13px">Report includes:</b>
+            <div>Embryo image &amp; analysis</div><div>Morphological assessment</div><div>Selection rationale</div><div>Clinician comments</div></div>
+          <button class="btn full" id="btnPdf" disabled onclick="pdf()">&#8681; Generate PDF Report</button>
+        </div>
+        <div class="paper" style="margin-top:14px" id="paper"><i style="color:var(--mute)">Report preview appears here after an image is analysed.</i></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page hidden" data-view="records">
+    <div class="top"><div><h1>Patient Records</h1><p class="sub">All saved analyses</p></div><input id="search" placeholder="Search patient or embryo ID" style="max-width:300px;margin-left:auto"></div>
+    <div class="card"><table id="recTable"></table></div>
+  </section>
+
+  <section class="page hidden" data-view="reports">
+    <div class="top"><div><h1>Reports</h1><p class="sub">Generated clinical reports</p></div></div>
+    <div class="card"><table id="repTable"></table></div>
+  </section>
+
+  <section class="page hidden" data-view="settings">
+    <div class="top"><div><h1>Settings</h1><p class="sub">Laboratory and display preferences</p></div></div>
+    <div class="card" style="max-width:560px">
+      <label>Clinic / laboratory name (shown on reports)</label><input id="sClinic">
+      <label>Default clinician / reviewer</label><input id="sClin">
+      <label>Low-confidence warning below (0-1)</label><input id="sThr" type="number" step="0.05" min="0" max="1">
+      <label>Backend API URL (leave empty if served from the same address)</label><input id="sApi" placeholder="https://your-tunnel.trycloudflare.com">
+      <button class="btn full" onclick="saveSettings()">Save settings</button>
+    </div>
+  </section>
+
+  <section class="page hidden" data-view="help">
+    <div class="top"><div><h1>Help &amp; Support</h1><p class="sub">Frequently asked questions</p></div></div>
+    <div class="card" style="max-width:760px">
+      <details open><summary>How do I analyse an embryo image?</summary><p>Open <b>Analysis</b>, drop an image (or click the box). The model returns stage, cellularity, ICM, TE and fragmentation within a few seconds.</p></details>
+      <details><summary>How do I download the clinical report?</summary><p>Check the Patient ID, Embryo ID, reviewer and comments, optionally mark the embryo as selected, then press <b>Generate PDF Report</b>.</p></details>
+      <details><summary>What does the confidence badge mean?</summary><p>It is the model's average certainty over the heads relevant to the detected stage: High &ge; 80%, Medium 60-80%, Low &lt; 60%. Low-confidence results need closer manual review.</p></details>
+      <details><summary>Is the AI output a clinical recommendation?</summary><p>No. Results support laboratory documentation and expert review only. The final selection always rests with the embryologist.</p></details>
+      <details><summary>Where is my data stored?</summary><p>In the local SQLite database and uploads folder of the backend you are running. Nothing is sent elsewhere.</p></details>
+    </div>
+  </section>
+</main>
+<div class="loader" id="loader">Analysing embryo image&hellip;</div><div class="toast" id="toast"></div>
+
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+let API=localStorage.getItem('nx_api')||'';
+let cur=null, z=1, settings={};
+const api=(p,o)=>fetch(API+p,o).then(async r=>{if(!r.ok)throw new Error((await r.text())||r.status);return r});
+const J=(p,o)=>api(p,o).then(r=>r.json());
+const toast=m=>{const t=$('#toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',2600)};
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt=ts=>new Date(ts).toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+const imgUrl=a=>API+a.image_url;
+
+function go(v,fresh){
+  $$('[data-view]').forEach(s=>s.classList.toggle('hidden',s.dataset.view!==v));
+  $$('#nav a').forEach(a=>a.classList.toggle('on',a.dataset.v===v));
+  location.hash=v;
+  if(v==='dashboard')loadDash(); if(v==='records')loadRecords(); if(v==='reports')loadReports();
+  if(v==='analysis'&&fresh)newAnalysis();
+}
+$$('#nav a').forEach(a=>a.onclick=()=>go(a.dataset.v));
+
+async function loadSettings(){
+  try{settings=await J('/api/settings')}catch(e){toast('Cannot reach backend - check API URL in Settings');return}
+  $('#sClinic').value=settings.clinic;$('#sClin').value=settings.clinician;$('#sThr').value=settings.confidence_threshold;$('#sApi').value=API;
+  const n=settings.clinician||'Clinician';$('#uname').textContent=n;$('#av').textContent=n[0].toUpperCase();
+}
+async function saveSettings(){
+  localStorage.setItem('nx_api',$('#sApi').value.trim().replace(/\/$/,''));API=localStorage.getItem('nx_api');
+  settings=await J('/api/settings',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({clinic:$('#sClinic').value,clinician:$('#sClin').value,confidence_threshold:$('#sThr').value})});
+  toast('Settings saved');loadSettings();
+}
+
+async function loadDash(){
+  const s=await J('/api/stats');
+  $('#stats').innerHTML=[['Analyses',s.total],['Patients',s.patients],['Selected embryos',s.selected],['Reports generated',s.reports],['Avg. confidence',Math.round(s.avg_conf*100)+'%']]
+    .map(([k,v])=>`<div class="card stat"><b>${v}</b><span>${k}</span></div>`).join('');
+  const mx=Math.max(1,...Object.values(s.stages));
+  $('#dist').innerHTML=Object.entries(s.stages).map(([k,v])=>`<div class="hb"><span>${k}</span><div class="bar"><i style="width:${v/mx*100}%"></i></div><span style="width:30px">${v}</span></div>`).join('')||'<i style="color:var(--mute)">No analyses yet</i>';
+  $('#recent').innerHTML='<tr><th></th><th>Patient</th><th>Embryo</th><th>Stage</th><th>Date</th></tr>'+s.recent.map(a=>`<tr class="click" onclick="openA('${a.id}')"><td><img class="thumb" src="${imgUrl(a)}"></td><td>${esc(a.patient_id)}</td><td>${esc(a.embryo_id)}</td><td>${esc(a.result.stage)}</td><td>${fmt(a.created*1000)}</td></tr>`).join('');
+}
+
+const drop=$('#drop'),file=$('#file');
+drop.onclick=()=>file.click();
+drop.ondragover=e=>{e.preventDefault();drop.classList.add('over')};drop.ondragleave=()=>drop.classList.remove('over');
+drop.ondrop=e=>{e.preventDefault();drop.classList.remove('over');if(e.dataTransfer.files[0])upload(e.dataTransfer.files[0])};
+file.onchange=()=>file.files[0]&&upload(file.files[0]);
+
+function newAnalysis(){cur=null;z=1;$('#viewer').classList.add('hidden');drop.classList.remove('hidden');$('#morph').innerHTML='';$('#summary').textContent='';$('#similar').textContent='';
+  $('#confPill').textContent='';$('#confPill').className='pill';$('#btnPdf').disabled=true;$('#paper').innerHTML='<i style="color:var(--mute)">Report preview appears here after an image is analysed.</i>';
+  $('#cPid').textContent='-';$('#cDate').textContent='-';['#fPid','#fEid','#fCom'].forEach(s=>$(s).value='');$('#fClin').value=settings.clinician||'';file.value=''}
+
+async function upload(f){
+  $('#loader').classList.add('on');
+  const fd=new FormData();fd.append('image',f);fd.append('patient_id',$('#fPid').value);fd.append('embryo_id',$('#fEid').value);
+  try{cur=await J('/api/analyze',{method:'POST',body:fd});show();toast('Analysis complete')}
+  catch(e){toast('Analysis failed: '+e.message.slice(0,80))}finally{$('#loader').classList.remove('on')}
+}
+function openA(id){J('/api/analyses/'+id).then(a=>{cur=a;go('analysis');show()})}
+
+function row(k,v,s){return `<tr><td>${k}</td><td>${esc(v)}</td><td><div class="bar"><i style="width:${(s||0)*100}%"></i></div></td></tr>`}
+function show(){
+  const a=cur,r=a.result;
+  drop.classList.add('hidden');$('#viewer').classList.remove('hidden');$('#img').src=imgUrl(a);z=1;$('#img').style.transform='';
+  $('#cPid').textContent=a.patient_id;$('#cDate').textContent=new Date(a.created*1000).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
+  $('#fPid').value=a.patient_id;$('#fEid').value=a.embryo_id;$('#fClin').value=a.clinician||settings.clinician||'';$('#fCom').value=a.comments||'';
+  const lab=r.confidence<parseFloat(settings.confidence_threshold||.6)?'Low Confidence':r.confidence_label;
+  $('#confPill').textContent=`\u2714 ${lab} (${Math.round(r.confidence*100)}%)`;$('#confPill').className='pill '+lab.split(' ')[0];
+  $('#morph').innerHTML=row('Developmental Stage',r.stage,0)+row('Cellularity',r.cellularity,r.scores.cellularity)+row('ICM',r.icm,r.scores.icm)+row('Trophectoderm (TE)',r.te,r.scores.te)+row('Fragmentation',r.fragmentation,r.scores.frag);
+  $('#summary').textContent=r.summary;
+  const s=r.similar_case;$('#similar').innerHTML=s?`Most similar annotated case (${esc(s.source)}, ${Math.round(s.similarity*100)}% match): <i>${esc(s.caption.slice(0,220))}</i>`:'';
+  $('#btnPdf').disabled=false;paper();
+}
+function paper(){
+  const a=cur,r=a.result,now=new Date(a.report_created?a.report_created*1000:Date.now());
+  $('#paper').innerHTML=`<div style="display:flex;justify-content:space-between"><b style="font-size:16px;color:var(--navy)">${esc(settings.clinic||'NexaEmbryo')}</b><span style="font-size:9px">EMBRYO ANALYSIS &amp; SELECTION REPORT</span></div>
+  <div class="band">1. PATIENT AND REPORT INFORMATION</div>
+  <table><tr><td>Patient ID</td><td>${esc($('#fPid').value)}</td></tr><tr><td>Embryo ID</td><td>${esc($('#fEid').value)}</td></tr><tr><td>Report Date</td><td>${now.toLocaleString('en-GB')}</td></tr><tr><td>Reviewed By</td><td>${esc($('#fClin').value)||'-'}</td></tr></table>
+  <div class="band">2. EMBRYO IMAGE &amp; 3. AI DESCRIPTION</div>
+  <div class="pimg"><img src="${imgUrl(a)}"><div>${esc(r.description)}</div></div>
+  <div class="band">4. MORPHOLOGICAL OBSERVATIONS</div>
+  <table><tr><td>Developmental Stage</td><td>${esc(r.stage)}</td></tr><tr><td>Cellularity</td><td>${esc(r.cellularity)}</td></tr><tr><td>ICM</td><td>${esc(r.icm)}</td></tr><tr><td>Trophectoderm</td><td>${esc(r.te)}</td></tr><tr><td>Fragmentation</td><td>${esc(r.fragmentation)}</td></tr></table>
+  <div class="band">5. FINAL SELECTION</div>
+  <p style="margin:8px 0"><button class="sel ${a.selected?'':'off'}" onclick="toggleSel()">${a.selected?'\u2714 Selected by Embryologist':'\u25CB Not selected (click to select)'}</button></p>
+  <p style="margin:4px 0"><b>Comments:</b> ${esc($('#fCom').value)||'-'}</p>
+  <p style="font-size:9.5px;color:var(--mute);font-style:italic">This report supports laboratory documentation and expert review. AI-generated observations are not a clinical recommendation.</p>`;
+}
+['#fPid','#fEid','#fClin','#fCom'].forEach(s=>$(s).addEventListener('input',()=>cur&&paper()));
+async function save(extra){
+  const body={patient_id:$('#fPid').value,embryo_id:$('#fEid').value,clinician:$('#fClin').value,comments:$('#fCom').value,...extra};
+  cur=await J('/api/analyses/'+cur.id,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+}
+async function toggleSel(){await save({selected:!cur.selected});$('#cPid').textContent=cur.patient_id;paper()}
+async function pdf(){
+  await save({});$('#cPid').textContent=cur.patient_id;
+  const r=await api('/api/report/'+cur.id);const b=await r.blob();
+  const u=URL.createObjectURL(b);const l=document.createElement('a');l.href=u;l.download=`${cur.patient_id}_${cur.embryo_id}.pdf`;l.click();
+  cur=await J('/api/analyses/'+cur.id);paper();toast('Report downloaded');
+}
+function zoom(d){z=Math.min(4,Math.max(.4,z+d));$('#img').style.transform=`scale(${z})`}
+function fs(){const v=$('#viewer');if(v.classList.contains('hidden'))return;(document.fullscreenElement?document.exitFullscreen():v.requestFullscreen())}
+
+let t;$('#search').oninput=()=>{clearTimeout(t);t=setTimeout(loadRecords,250)};
+async function loadRecords(){
+  const rows=await J('/api/analyses?q='+encodeURIComponent($('#search').value));
+  $('#recTable').innerHTML='<tr><th></th><th>Patient</th><th>Embryo</th><th>Stage</th><th>Confidence</th><th>Selected</th><th>Date</th><th></th></tr>'+
+  (rows.map(a=>`<tr class="click"><td onclick="openA('${a.id}')"><img class="thumb" src="${imgUrl(a)}"></td><td onclick="openA('${a.id}')">${esc(a.patient_id)}</td><td onclick="openA('${a.id}')">${esc(a.embryo_id)}</td><td onclick="openA('${a.id}')">${esc(a.result.stage)}</td><td>${Math.round(a.result.confidence*100)}%</td><td>${a.selected?'\u2714':''}</td><td>${fmt(a.created*1000)}</td><td><button class="btn sec" onclick="del('${a.id}')">Delete</button></td></tr>`).join('')||'<tr><td colspan=8 style="color:var(--mute)">No records yet</td></tr>');
+}
+async function del(id){if(confirm('Delete this record?')){await J('/api/analyses/'+id,{method:'DELETE'});loadRecords()}}
+async function loadReports(){
+  const rows=(await J('/api/analyses')).filter(a=>a.report_id);
+  $('#repTable').innerHTML='<tr><th>Report ID</th><th>Patient</th><th>Embryo</th><th>Generated</th><th></th></tr>'+(rows.map(a=>`<tr><td>${esc(a.report_id)}</td><td>${esc(a.patient_id)}</td><td>${esc(a.embryo_id)}</td><td>${fmt(a.report_created*1000)}</td><td><a class="btn sec" style="text-decoration:none" href="${API}/api/report/${a.id}">Download PDF</a></td></tr>`).join('')||'<tr><td colspan=5 style="color:var(--mute)">No reports generated yet</td></tr>');
+}
+
+loadSettings().then(()=>go((location.hash||'#dashboard').slice(1)));
+</script>
+</body>
+</html>
